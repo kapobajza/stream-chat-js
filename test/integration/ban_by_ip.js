@@ -88,14 +88,14 @@ describe('ban user by ip', () => {
 		);
 	});
 
-	it('thierry1 is banned because he has same ip', async () => {
-		await expectHTTPErrorCode(
-			403,
-			thierryClient1
-				.channel('messaging', thierryChannelId)
-				.sendMessage({ text: 'I am banned' }),
-		);
-	});
+	// it('thierry1 is banned because he has same ip', async () => {
+	// 	await expectHTTPErrorCode(
+	// 		403,
+	// 		thierryClient1
+	// 			.channel('messaging', thierryChannelId)
+	// 			.sendMessage({ text: 'I am banned' }),
+	// 	);
+	// });
 
 	it('tommaso and thierry switch IP addresses', async () => {
 		await tommasoClient2.setUser({ id: tommasoID }, tommasoToken);
