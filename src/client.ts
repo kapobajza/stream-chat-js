@@ -215,7 +215,7 @@ export class StreamChat<
 
     if (typeof process !== 'undefined' && process.env.STREAM_LOCAL_TEST_RUN) {
       const host = process.env.STREAM_LOCAL_TEST_HOST || 'http://localhost:3030';
-      this.setBaseURL(host);
+      this.setBaseURL('http://' + host);
     }
 
     // WS connection is initialized when setUser is called
