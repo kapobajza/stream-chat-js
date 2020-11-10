@@ -9,7 +9,7 @@ import sinon from 'sinon';
 import { TokenManager } from '../../src/token_manager';
 
 const wsBaseURL = process.env.STREAM_LOCAL_TEST_RUN
-	? 'ws://localhost:3030'
+	? 'ws://' + process.env.STREAM_LOCAL_TEST_HOST || 'ws://localhost:3030'
 	: 'wss://chat-us-east-1.stream-io-api.com';
 
 const tokenProvider = () =>
