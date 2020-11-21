@@ -272,4 +272,28 @@ describe('Connection and reconnect behaviour', function () {
 		await sleep(2000);
 		expect(client.tokenManager.loadToken.called).to.equal(true);
 	});
+
+	it('Unknown api key should not lead to 500 error', async () => {
+		const client = getTestClient(false);
+		await client.setUser({ id: 'thierry' }, () =>
+			createUserToken('thierry', Math.floor(Date.now() / 1000) + 1),
+		);
+		client.key = 'mumblejumboraaaaaaaah';
+
+		let error = false;
+		try {
+			await client.queryUsers({});
+		} catch (e) {
+			error = true;
+			expect(e.response).to.not.be.undefined;
+			expect(e.response.data).to.not.be.undefined;
+			expect(e.response.data.code).to.equal(2);
+			expect(e.response.data.StatusCode).to.equal(401);
+			expect(e.response.data.message).to.equal(
+				'QueryUsers failed with error: "api_key not found"',
+			);
+		}
+
+		expect(error).to.be.true;
+	});
 });
