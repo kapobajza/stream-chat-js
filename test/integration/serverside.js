@@ -2892,6 +2892,7 @@ describe('Channel types', function () {
 				mutes: true,
 				uploads: true,
 				name: `${newType}`,
+				push_notifications: true,
 				reactions: true,
 				replies: true,
 				search: true,
@@ -2938,6 +2939,7 @@ describe('Channel types', function () {
 				mutes: true,
 				uploads: true,
 				name: `${name}`,
+				push_notifications: true,
 				reactions: true,
 				replies: true,
 				search: true,
@@ -2980,6 +2982,7 @@ describe('Channel types', function () {
 				message_retention: 'infinite',
 				mutes: true,
 				name: `${name}`,
+				push_notifications: true,
 				reactions: true,
 				replies: true,
 				search: true,
@@ -3025,13 +3028,15 @@ describe('Channel types', function () {
 		it('default is fine', async () => {
 			const response = await client.updateChannelType('messaging', {
 				mutes: false,
+				push_notifications: false,
 				reactions: false,
 				replies: true,
 			});
 
 			// as changed
-			expect(response.reactions).to.have.false;
 			expect(response.mutes).to.have.false;
+			expect(response.push_notifications).to.have.false;
+			expect(response.reactions).to.have.false;
 			expect(response.replies).to.have.true;
 
 			// shouldn't change from default
@@ -3041,11 +3046,13 @@ describe('Channel types', function () {
 			// revert the config and check if correctly reverted
 			const reverted = await client.updateChannelType('messaging', {
 				mutes: true,
+				push_notifications: true,
 				reactions: true,
 			});
 
-			expect(reverted.reactions).to.have.true;
 			expect(reverted.mutes).to.have.true;
+			expect(reverted.push_notifications).to.have.true;
+			expect(reverted.reactions).to.have.true;
 			expect(reverted.replies).to.have.true;
 		});
 
@@ -3090,6 +3097,7 @@ describe('Channel types', function () {
 				mutes: true,
 				uploads: true,
 				name: `${channelTypeName}`,
+				push_notifications: true,
 				reactions: true,
 				replies: true,
 				search: true,
@@ -3115,6 +3123,14 @@ describe('Channel types', function () {
 			await sleep(1000);
 		});
 
+		it('flip push_notifications config to false', async () => {
+			const response = await client.updateChannelType(channelTypeName, {
+				push_notifications: false,
+			});
+			expect(response.push_notifications).to.be.false;
+			await sleep(1000);
+		});
+
 		it('new configs should be returned from channel.query', async () => {
 			const client = await getTestClientForUser('tommaso');
 			const data = await client.channel(channelTypeName, 'test').watch();
@@ -3135,6 +3151,7 @@ describe('Channel types', function () {
 				mutes: true,
 				uploads: true,
 				name: `${channelTypeName}`,
+				push_notifications: false,
 				reactions: true,
 				replies: false,
 				search: true,
@@ -3310,6 +3327,7 @@ describe('Channel types', function () {
 				mutes: true,
 				uploads: true,
 				name: 'messaging',
+				push_notifications: true,
 				reactions: true,
 				replies: true,
 				search: true,
@@ -3368,6 +3386,7 @@ describe('Channel types', function () {
 				mutes: true,
 				uploads: true,
 				name: 'messaging',
+				push_notifications: true,
 				reactions: true,
 				replies: true,
 				search: true,
