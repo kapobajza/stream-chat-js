@@ -437,9 +437,6 @@ export type MessageResponse<
   command_info?: { name?: string };
   created_at?: string;
   deleted_at?: string;
-  i18n?: RequireAtLeastOne<Record<`${TranslationLanguages}_text`, string>> & {
-    language: TranslationLanguages;
-  };
   latest_reactions?: ReactionResponse<ReactionType, UserType>[];
   mentioned_users?: UserResponse<UserType>[];
   own_reactions?: ReactionResponse<ReactionType, UserType>[] | null;
